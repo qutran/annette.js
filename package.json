@@ -10,6 +10,7 @@
   "main": "dist/lib.js",
   "module": "dist/lib.mjs",
   "unpkg": "dist/lib.mjs",
+  "typings": "typings.d.ts",
   "author": "Dmitry Kutran <kutran.dmitry@gmail.com> (https://github.com/qutran)",
   "homepage": "https://github.com/qutran/annette.js",
   "repository": "github:qutran/annette.js",
