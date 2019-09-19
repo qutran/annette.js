@@ -27,5 +27,5 @@ export function filter(callback: (value: any) => any): IOperator;
 export function promise(callback: (value: any) => Promise<any>): IOperator;
 export function effect(callback: (value: any) => any): IOperator;
 export function stream(callback: (value: any) => ISource): IOperator;
-export function timeout(ms: number, onTick: (value: any) => any): IOperator;
-export function interval(ms: number, onTick: (value: any) => any): IOperator;
+export function timeout(ms: number, onTick?: (value: any) => any): IOperator;
+export function interval(ms: number, onTick?: (value: any) => any): IOperator;
