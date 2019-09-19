@@ -1,0 +1,30 @@
+{
+  "name": "annette.js",
+  "sideEffects": false,
+  "version": "0.0.1",
+  "description": "",
+  "keywords": [
+    "svelte",
+    "generator"
+  ],
+  "main": "dist/lib.js",
+  "module": "dist/lib.mjs",
+  "unpkg": "dist/lib.mjs",
+  "author": "Dmitry Kutran <kutran.dmitry@gmail.com> (https://github.com/qutran)",
+  "homepage": "https://github.com/qutran/annette.js",
+  "repository": "github:qutran/annette.js",
+  "bugs": "https://github.com/qutran/annette.js/issues",
+  "license": "MIT",
+  "scripts": {
+    "build": "rollup -c",
+    "test": "jest",
+    "test:w": "jest --watchAll"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.6.0",
+    "@babel/preset-env": "^7.6.0",
+    "babel-jest": "^24.9.0",
+    "jest": "^24.9.0",
+    "rollup": "^1.21.4"
+  }
+}
