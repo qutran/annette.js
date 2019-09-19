@@ -4,6 +4,7 @@ function throwIfNotExists() {
 
 export function pipe(source = throwIfNotExists(), ...operations) {
   if (!operations.length) return source;
+  const { subscribe: selfSubscribe, catch: selfCatch, ...selfMethods } = source;
 
   const list = operations.reduceRight(createNode, null);
   const UNSET_VALUE = {};
@@ -55,7 +56,7 @@ export function pipe(source = throwIfNotExists(), ...operations) {
 
   function subscribe(fn) {
     if (!listeners.length) {
-      unsubscribeSource = source.subscribe(list.op.execute);
+      unsubscribeSource = selfSubscribe(list.op.execute);
     }
 
     listeners.push(fn);
@@ -81,8 +82,9 @@ export function pipe(source = throwIfNotExists(), ...operations) {
           unsubscribe();
         };
       },
+      ...selfMethods,
     };
   }
 
-  return { subscribe, catch: onCatch };
+  return { subscribe, catch: onCatch, ...selfMethods };
 }
