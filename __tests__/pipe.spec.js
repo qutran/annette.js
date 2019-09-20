@@ -2,7 +2,7 @@ import { pipe } from '../src';
 import { createStore } from './store';
 
 describe('pipe', () => {
-  it('pipe: sholud create pipe', () => {
+  it('pipe: should create pipe', () => {
     const unsubSpy = jest.fn();
     const store = createStore(10);
 
@@ -35,11 +35,26 @@ describe('pipe', () => {
       ({ next }) => next(20),
     )
       .catch(errorFn)
-      .subscribe();
+      .subscribe(() => {});
 
     store.set(1);
     unsub();
     expect(errorFn).toBeCalledWith('error text');
+  });
+
+  it('pipe: should catch the error on operator', () => {
+    const store = createStore();
+    const errorFn = jest.fn();
+    pipe(
+      store,
+      ({ value, next }) => {
+        next(value.a.propOnNotExistedObj);
+      },
+    )
+      .catch(errorFn)
+      .subscribe(() => {}, true);
+
+    expect(errorFn).toBeCalledWith(expect.any(TypeError));
   });
 
   it('pipe: should subscribe on the new data', () => {

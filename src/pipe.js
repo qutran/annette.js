@@ -17,15 +17,19 @@ export function pipe(source = throwIfNotExists(), ...operations) {
     return { next, op: wrapOperation(next, op) };
   }
 
-  function wrapOperation(next, rawOp) {
-    const nextNode = next ? next.op.execute : dispatch;
-    const op = value => rawOp({ next: nextNode, error: dispatchError, value });
+  function wrapOperation(nextNode, rawOp) {
+    const next = nextNode ? nextNode.op.execute : dispatch;
+    const op = value => rawOp({ next, error: dispatchError, value });
     let unsubscribe = null;
 
     return {
       execute: value => {
         if (unsubscribe) unsubscribe();
-        unsubscribe = op(value);
+        try {
+          unsubscribe = op(value);
+        } catch (ex) {
+          dispatchError(ex);
+        }
       },
       unsubscribe() {
         if (unsubscribe) unsubscribe();
@@ -74,8 +78,8 @@ export function pipe(source = throwIfNotExists(), ...operations) {
   function onCatch(errorFn) {
     return {
       subscribe(fn) {
-        const unsubscribe = subscribe(fn);
         errorListeners.push(errorFn);
+        const unsubscribe = subscribe(fn);
         return () => {
           const index = errorListeners.indexOf(errorFn);
           errorListeners.splice(index, 1);
